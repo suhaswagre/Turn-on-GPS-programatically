@@ -49,24 +49,15 @@ public class GpsUtils {
     }
 
     // method for turn on GPS
-    public void turnGPSOn(onGpsListener onGpsListener) {
-
-        if (locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER)) {
-            if (onGpsListener != null) {
-                onGpsListener.gpsStatus(true);
-            }
-        } else {
+    public void turnGPSOn() {
             mSettingsClient
                     .checkLocationSettings(mLocationSettingsRequest)
                     .addOnSuccessListener((Activity) context, new OnSuccessListener<LocationSettingsResponse>() {
                         @SuppressLint("MissingPermission")
                         @Override
                         public void onSuccess(LocationSettingsResponse locationSettingsResponse) {
-
                             //  GPS is already enable, callback GPS status through listener
-                            if (onGpsListener != null) {
-                                onGpsListener.gpsStatus(true);
-                            }
+                            Toast.makeText(context, "Gps is already enabled.", Toast.LENGTH_SHORT).show();
                         }
                     })
                     .addOnFailureListener((Activity) context, new OnFailureListener() {
@@ -97,7 +88,3 @@ public class GpsUtils {
         }
     }
 
-    public interface onGpsListener {
-        void gpsStatus(boolean isGPSEnable);
-    }
-}
